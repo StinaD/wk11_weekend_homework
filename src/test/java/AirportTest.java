@@ -7,15 +7,19 @@ public class AirportTest {
 
     Airport airport;
     Plane plane;
-    Flight flight;
-    Passenger passenger;
+    Flight flight1;
+    Flight flight2;
+    Passenger passenger1;
+    Passenger passenger2;
 
     @Before
     public void before(){
         airport = new Airport(AirportReferenceType.EDI);
         plane = new Plane(PlaneType.BOEING_DREAMLINER, "British Airways", 202);
-        flight = new Flight("ABC12", AirportReferenceType.DND, 1300, 1330);
-        passenger = new Passenger("Stanley Tucci", AirportReferenceType.DND);
+        flight1 = new Flight("ABC12", AirportReferenceType.DND, 1300, 1330);
+        flight2 = new Flight("XYZ999", AirportReferenceType.INV, 1600, 1730);
+        passenger1 = new Passenger("Stanley Tucci", AirportReferenceType.DND);
+        passenger2 = new Passenger("Meryl Streep", AirportReferenceType.INV);
     }
 
     @Test
@@ -46,8 +50,8 @@ public class AirportTest {
 
     @Test
     public void canAddFlights(){
-        airport.addFlight(flight);
-        airport.addFlight(flight);
+        airport.addFlight(flight1);
+        airport.addFlight(flight1);
         assertEquals(2, airport.getNumberOfFlights());
     }
 
@@ -58,16 +62,16 @@ public class AirportTest {
 
     @Test
     public void canAddPassengers(){
-        airport.addPassenger(passenger);
+        airport.addPassenger(passenger1);
         assertEquals(1, airport.getNumberOfPassengers());
     }
 
     @Test
     public void canSellTicket(){
-        airport.addPassenger(passenger);
-        flight.assignPlane(plane);
-        airport.sellTicket(flight, passenger);
-        assertEquals(1, flight.getNumberOfPassengers());
+        airport.addPassenger(passenger1);
+        flight1.assignPlane(plane);
+        airport.sellTicket(flight1, passenger1);
+        assertEquals(1, flight1.getNumberOfPassengers());
     }
 
     @Test
@@ -85,9 +89,20 @@ public class AirportTest {
         airport.addPlaneToHangar(plane);
         airport.addPlaneToHangar(plane);
         assertEquals(3, airport.getNumberOfPlanesInHangar());
-        flight.addPassenger(passenger);
-        airport.assignPlaneToFlight(flight);
+        flight1.addPassenger(passenger1);
+        airport.assignPlaneToFlight(flight1);
         assertEquals(2, airport.getNumberOfPlanesInHangar());
+    }
+
+    @Test
+    public void canCountNumberOfPassengersOnFlights(){
+        airport.addFlight(flight1);
+        airport.addFlight(flight2);
+        flight1.addPassenger(passenger1);
+        flight1.addPassenger(passenger1);
+        flight2.addPassenger(passenger2);
+        flight2.addPassenger(passenger2);
+        assertEquals(4, airport.countPassengersOnFlights());
     }
 
 }

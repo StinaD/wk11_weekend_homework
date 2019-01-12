@@ -67,4 +67,12 @@ public class Airport {
             }
         }
     }
+
+    public int countPassengersOnFlights() {
+        int totalPassengers = 0;
+        for(Flight flight : flights) {
+            totalPassengers += flight.getNumberOfPassengers();
+        }
+        return totalPassengers;
+    }
 }
