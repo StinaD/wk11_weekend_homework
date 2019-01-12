@@ -4,24 +4,18 @@ public class Plane {
     private PlaneType planeType;
     private String airline;
     private int uniqueIdentifier;
-    private ArrayList<Passenger> passengers;
 
     public Plane(PlaneType planeType, String airline, int uniqueIdentifier){
         this.planeType = planeType;
         this.airline = airline;
         this.uniqueIdentifier = uniqueIdentifier;
-        this.passengers = new ArrayList<>();
     }
 
-    public int getNumberOfPassengers(){
-        return passengers.size();
-    }
 
 
     public PlaneType getPlaneType() {
         return planeType;
     }
-
 
     public String getAirline() {
         return airline;
@@ -31,7 +25,6 @@ public class Plane {
         this.airline = airline;
     }
 
-
     public int getUniqueIdentifier() {
         return uniqueIdentifier;
     }
@@ -40,5 +33,9 @@ public class Plane {
         this.uniqueIdentifier = uniqueIdentifier;
     }
 
-    
+
+    public int getCapacity(){
+        return planeType.getCapacity();
+    }
+
 }

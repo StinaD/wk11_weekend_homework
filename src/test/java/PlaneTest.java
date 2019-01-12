@@ -11,10 +11,7 @@ public class PlaneTest {
         plane = new Plane(PlaneType.BOEING_747, "Easyjet", 101);
     }
 
-    @Test
-    public void startsWithNoPassengers(){
-        assertEquals(0, plane.getNumberOfPassengers());
-    }
+
 
     @Test
     public void hasPlaneType(){
@@ -30,4 +27,7 @@ public class PlaneTest {
     public void hasUniqueIdentifier(){
         assertEquals(101, plane.getUniqueIdentifier());
     }
+
+
+
 }
