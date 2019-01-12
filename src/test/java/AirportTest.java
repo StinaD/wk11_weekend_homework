@@ -6,7 +6,9 @@ import static org.junit.Assert.assertEquals;
 public class AirportTest {
 
     Airport airport;
-    Plane plane;
+    Plane plane1;
+    Plane plane2;
+    Plane plane3;
     Flight flight1;
     Flight flight2;
     Passenger passenger1;
@@ -15,7 +17,9 @@ public class AirportTest {
     @Before
     public void before(){
         airport = new Airport(AirportReferenceType.EDI);
-        plane = new Plane(PlaneType.BOEING_DREAMLINER, "British Airways", 202);
+        plane1 = new Plane(PlaneType.BOEING_DREAMLINER, "British Airways", 202);
+        plane2 = new Plane(PlaneType.BOEING_747, "Easyjet", 303);
+        plane3 = new Plane(PlaneType.AIRBUS_A300, "Ryanair", 404);
         flight1 = new Flight("ABC12", AirportReferenceType.DND, 1300, 1330);
         flight2 = new Flight("XYZ999", AirportReferenceType.INV, 1600, 1730);
         passenger1 = new Passenger("Stanley Tucci", AirportReferenceType.DND);
@@ -39,7 +43,7 @@ public class AirportTest {
 
     @Test
     public void canAddPlaneToHangar(){
-        airport.addPlaneToHangar(plane);
+        airport.addPlaneToHangar(plane1);
         assertEquals(1, airport.getNumberOfPlanesInHangar());
     }
 
@@ -69,29 +73,34 @@ public class AirportTest {
     @Test
     public void canSellTicket(){
         airport.addPassenger(passenger1);
-        flight1.assignPlane(plane);
+        flight1.assignPlane(plane1);
         airport.sellTicket(flight1, passenger1);
         assertEquals(1, flight1.getNumberOfPassengers());
     }
 
     @Test
     public void canRemovePlaneFromHangar(){
-        airport.addPlaneToHangar(plane);
-        airport.addPlaneToHangar(plane);
-        airport.addPlaneToHangar(plane);
-        airport.removePlaneFromHangar(plane);
+        airport.addPlaneToHangar(plane1);
+        airport.addPlaneToHangar(plane1);
+        airport.addPlaneToHangar(plane1);
+        airport.removePlaneFromHangar(plane1);
         assertEquals(2, airport.getNumberOfPlanesInHangar());
     }
 
     @Test
     public void canAssignPlaneToFlight(){
-        airport.addPlaneToHangar(plane);
-        airport.addPlaneToHangar(plane);
-        airport.addPlaneToHangar(plane);
+        airport.addPlaneToHangar(plane1);
+        airport.addPlaneToHangar(plane2);
+        airport.addPlaneToHangar(plane3);
         assertEquals(3, airport.getNumberOfPlanesInHangar());
         flight1.addPassenger(passenger1);
+        flight1.addPassenger(passenger2);
+        flight1.addPassenger(passenger1);
+        flight1.addPassenger(passenger2);
         airport.assignPlaneToFlight(flight1);
         assertEquals(2, airport.getNumberOfPlanesInHangar());
+        assertEquals(4, flight1.getNumberOfPassengers());
+        assertEquals(PlaneType.BOEING_DREAMLINER, flight1.getPlaneType());
     }
 
     @Test
@@ -104,5 +113,6 @@ public class AirportTest {
         flight2.addPassenger(passenger2);
         assertEquals(4, airport.countPassengersOnFlights());
     }
+
 
 }

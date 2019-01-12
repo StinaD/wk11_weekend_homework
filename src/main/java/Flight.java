@@ -50,4 +50,12 @@ public class Flight {
     public void addPassenger(Passenger passenger) {
         passengers.add(passenger);
     }
+
+    public PlaneType getPlaneType() {
+        PlaneType assignedPlaneType = null;
+        if (assignedPlane != null) {
+            assignedPlaneType = assignedPlane.getPlaneType();
+        }
+        return assignedPlaneType;
+    }
 }

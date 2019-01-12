@@ -58,15 +58,28 @@ public class Airport {
         hangar.remove(plane);
     }
 
-    public void assignPlaneToFlight(Flight flight) {
-        for(Plane plane : hangar) {
-            if (plane.getCapacity() > flight.getNumberOfPassengers()){
+    private PlaneType findSuitablePlaneType(Flight flight){
+        PlaneType suitablePlane = null;
+        for (PlaneType plane : PlaneType.values()) {
+            if (flight.getNumberOfPassengers() >= plane.getCapacity()) {
+                suitablePlane = plane;
+            }
+        }
+        return suitablePlane;
+    }
+
+    public void assignPlaneToFlight(Flight flight){
+        PlaneType suitablePlaneType = findSuitablePlaneType(flight);
+        for (Plane plane : hangar) {
+            if (plane.getPlaneType() == suitablePlaneType){
                 flight.assignPlane(plane);
                 removePlaneFromHangar(plane);
                 break;
             }
         }
     }
+
+
 
     public int countPassengersOnFlights() {
         int totalPassengers = 0;

@@ -60,5 +60,11 @@ public class FlightTest {
         assertEquals(2, flight.getNumberOfPassengers());
     }
 
+    @Test
+    public void canGetPlane(){
+        flight.assignPlane(plane);
+        assertEquals(PlaneType.BOEING_747, flight.getPlaneType());
+    }
+
 }
 
