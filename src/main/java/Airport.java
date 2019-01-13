@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class Airport {
 
     private AirportReferenceType reference;
@@ -58,7 +59,7 @@ public class Airport {
         hangar.remove(plane);
     }
 
-    private PlaneType findSuitablePlaneType(Flight flight){
+    private PlaneType findSmallestSuitablePlaneType(Flight flight){
         PlaneType suitablePlane = null;
         for (PlaneType plane : PlaneType.values()) {
             if (flight.getNumberOfPassengers() >= plane.getCapacity()) {
@@ -68,17 +69,42 @@ public class Airport {
         return suitablePlane;
     }
 
-    public void assignPlaneToFlight(Flight flight){
-        PlaneType suitablePlaneType = findSuitablePlaneType(flight);
+    public void getBackUpPlane(Flight flight){
+        int planeCapacityRequired = flight.getNumberOfPassengers();
+        Plane backUpPlane = null;
         for (Plane plane : hangar) {
-            if (plane.getPlaneType() == suitablePlaneType){
-                flight.assignPlane(plane);
-                removePlaneFromHangar(plane);
+            if (plane.getCapacity() >= planeCapacityRequired){
+                backUpPlane = plane;
                 break;
             }
         }
+        flight.assignPlane(backUpPlane);
     }
 
+    public Plane getSuitablePlaneForFlight(Flight flight){
+        for (PlaneType planeType : PlaneType.values() ) {
+            if (flight.getNumberOfPassengers() > planeType.getCapacity()){
+                continue;
+            }
+            for (Plane plane : hangar) {
+                if (plane.getPlaneType() == planeType) {
+                    return plane;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public boolean getPlaneForFlight(Flight flight){
+        Plane plane = getSuitablePlaneForFlight(flight);
+        if (plane != null){
+            flight.assignPlane(plane);
+            removePlaneFromHangar(plane);
+            return true;
+        }
+        return false;
+    }
 
 
     public int countPassengersOnFlights() {

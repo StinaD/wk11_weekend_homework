@@ -5,6 +5,7 @@ public enum PlaneType {
 
     private int capacity;
 
+
     PlaneType(int capacity){
         this.capacity = capacity;
     }
@@ -12,4 +13,6 @@ public enum PlaneType {
     public int getCapacity(){
         return capacity;
     }
+
+
 }

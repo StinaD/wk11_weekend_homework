@@ -97,7 +97,7 @@ public class AirportTest {
         flight1.addPassenger(passenger2);
         flight1.addPassenger(passenger1);
         flight1.addPassenger(passenger2);
-        airport.assignPlaneToFlight(flight1);
+        airport.getPlaneForFlight(flight1);
         assertEquals(2, airport.getNumberOfPlanesInHangar());
         assertEquals(4, flight1.getNumberOfPassengers());
         assertEquals(PlaneType.BOEING_DREAMLINER, flight1.getPlaneType());
@@ -114,5 +114,23 @@ public class AirportTest {
         assertEquals(4, airport.countPassengersOnFlights());
     }
 
+    @Test
+    public void canGetBackUpPlane(){
+        airport.addPlaneToHangar(plane1);
+        airport.addPlaneToHangar(plane2);
+        airport.addPlaneToHangar(plane3);
+        assertEquals(3, airport.getNumberOfPlanesInHangar());
+        airport.addFlight(flight1);
+        assertEquals(1, airport.getNumberOfFlights());
+        flight1.addPassenger(passenger1);
+        flight1.addPassenger(passenger1);
+        flight1.addPassenger(passenger2);
+        assertEquals(3, flight1.getNumberOfPassengers());
+        airport.getPlaneForFlight(flight1);
+        assertEquals(PlaneType.BOEING_747, flight1.getPlaneType());
+        airport.getBackUpPlane(flight1);
+        assertEquals(PlaneType.BOEING_DREAMLINER, flight1.getPlaneType());
+
+    }
 
 }
